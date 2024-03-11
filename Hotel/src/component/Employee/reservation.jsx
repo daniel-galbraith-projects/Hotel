@@ -7,8 +7,6 @@ function ReservationTable(prop) {
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage] = useState(10); // Number of records per page
 
-  console.log(reservations);
-
   // Calculate index of the first and last records to display
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;

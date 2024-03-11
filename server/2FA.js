@@ -7,8 +7,8 @@ const bcrypt = require("bcrypt");
 let transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "PUT YOUR EMAIL", // your email address
-    pass: "PUT YOUR PASSWORD",
+    user: "Danielgalbraith31@gmail.com", // your email address
+    pass: "scjt crqh rkqm fshi",
   },
 });
 
@@ -19,7 +19,7 @@ const sendCode = async (email) => {
     let mailOptions = {
       from: {
         name: "Hotel",
-        address: "YOUR EMAIL",
+        address: "Danielgalbraith31@gmail.com",
       },
       to: email,
       subject: "TWO STEP AUTHENTICATION",

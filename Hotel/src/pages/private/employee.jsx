@@ -9,10 +9,21 @@ import task from "../../assets/task.png";
 import room from "../../assets/room.png";
 import Reservation from "../../assets/reservation.png";
 import ReservationTable from "../../component/Employee/reservation";
+import logoutImage from "../../assets/logout.png";
 
+///API CALL
 import getrereservation from "../../api/reservation";
 import getroom from "../../api/room";
+import employeeAPI from "../../api/employee";
+import getOnlineGuest from "../../api/onlineguest";
+
+// View Component
 import RoomAvailabilityTable from "../../component/Employee/roomavailable";
+import Employees from "../../component/Employee/Employee";
+import OnlineGuest from "../../component/Employee/onlineguest";
+
+//Logout
+import Logout from "../../component/logout";
 
 function Employee(params) {
   const [activeSection, setActiveSection] = useState(null);
@@ -24,6 +35,12 @@ function Employee(params) {
   const { res_data } = getrereservation("ReservationDetails");
 
   const { room_data } = getroom("RoomAvailability");
+
+  const { online_reservations } = employeeAPI("EmployeeSup");
+
+  const { onlineGuest_data } = getOnlineGuest(
+    "CUSTOMER_SEVICE_REQUEST_WALK_IN"
+  );
 
   return (
     <>
@@ -83,6 +100,17 @@ function Employee(params) {
                 <span>Setting</span>
               </div>
             </div>
+            <div
+              className={`section ${
+                activeSection === "Dashboard" ? "active" : ""
+              }`}
+              onClick={() => handleSectionClick("Dashboard")}
+            >
+              <div className="item">
+                <img src={logoutImage} alt="" />
+                <Logout />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -114,6 +142,8 @@ function Employee(params) {
             </div>
             <ReservationTable reservations={res_data} />
             <RoomAvailabilityTable roomAvailability={room_data} />
+            <Employees online_reservations={online_reservations} />
+            <OnlineGuest onlineGuest_data={onlineGuest_data} />
           </div>
         </main>
       </div>

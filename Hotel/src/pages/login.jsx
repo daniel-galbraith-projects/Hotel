@@ -33,7 +33,8 @@ const Login = () => {
         }
       }
     } catch (error) {
-      setError("Invail Password or Email");
+      console.log(error?.response?.data?.message);
+      setError(error.response.data.message);
     }
   };
 

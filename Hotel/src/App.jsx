@@ -55,9 +55,9 @@ function App() {
 
               <Route path="/roomdetails" element={<Room_INFO />} />
             </Route>
-            <Route element={<EmployeeProtectedRoutes />}>
+            {/* <Route element={<EmployeeProtectedRoutes />}> */}
               <Route path="/employee" element={<Employee />} />
-            </Route>
+            {/* </Route> */}
             <Route path="/bill" element={<Bill />} />
           </Routes>
         </BrowserRouter>

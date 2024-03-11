@@ -14,8 +14,6 @@ function getroom(url) {
         const response = await axios.get(`http://localhost:5000/${url}`);
 
         setroom_data(response?.data?.recordset);
-
-        console.log(response.data.recordset);
       } catch (room_error) {
         console.error("Error:", error);
         setroom_error(error);

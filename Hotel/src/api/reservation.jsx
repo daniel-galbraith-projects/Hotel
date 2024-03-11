@@ -14,8 +14,6 @@ function getreservation(url) {
         const response = await axios.get(`http://localhost:5000/${url}`);
 
         setres_data(response?.data?.recordset);
-
-        console.log(response.data.recordset);
       } catch (error) {
         console.error("Error:", error);
         setres_error(error);
