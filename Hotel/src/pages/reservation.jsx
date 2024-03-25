@@ -15,24 +15,41 @@ const Reservation = () => {
   const navigate = useNavigate();
 
   //context
-  const { RoomInfo, serviceID, Userdata } = useContext(Context);
+  const { RoomInfo, serviceID, Userdata, setUserdata } = useContext(Context);
 
   const Submit = async (data) => {
     try {
-      axios.post("http://localhost:5000/CreateReservation", {
-        ...data,
-        room_id: RoomInfo?.Room_ID,
-        service_id: serviceID?.SERVICE_ID,
-        trn: Userdata?.TRN,
-        pguest: Userdata?.PGUEST,
-      });
-      console.log(RoomInfo);
+      const Reversation_response_InvoiceNmuber = await axios.post(
+        "http://localhost:5000/CreateReservation",
+        {
+          ...data,
+          room_id: RoomInfo?.Room_ID,
+          service_id: serviceID?.SERVICE_ID,
+          trn: Userdata?.TRN,
+          pguest: `${Userdata.f_name} ${Userdata.l_name}`,
+        }
+      );
+
       axios.post("http://localhost:5000/bill", {
+        INVOICE_NUMBER:
+          Reversation_response_InvoiceNmuber.data?.recordset[0].InvoiceNumber,
         ITEM_COST: RoomInfo.roomcost,
         Final_Cost: RoomInfo.roomcost + Math.round((Math.random() * 100) / 4),
         check_in: "2024-01-01",
       });
-
+      setUserdata({
+        ...Userdata,
+        INVOICE_NUMBER:
+          Reversation_response_InvoiceNmuber.data?.recordset[0].InvoiceNumber,
+        room_id: RoomInfo?.Room_ID,
+        service_id: serviceID?.SERVICE_ID,
+        sguest: data.sguest,
+        sdate: data.sdate,
+        edate: data.edate,
+        pguest: `${Userdata.f_name} ${Userdata.l_name}`,
+        ITEM_COST: RoomInfo.roomcost,
+        Final_Cost: RoomInfo.roomcost + Math.round((Math.random() * 100) / 4),
+      });
       navigate("/bill");
     } catch (error) {
       console.error("Error:", error);
@@ -108,7 +125,7 @@ const Reservation = () => {
             <label>
               TRN:
               <input
-                value={Userdata.TRN}
+                value={Userdata?.TRN}
                 disabled
                 type="number"
                 id="trn"

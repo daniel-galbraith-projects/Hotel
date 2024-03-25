@@ -48,7 +48,7 @@ function RoomAvailabilityTable(prop) {
         </tbody>
       </table>
       <Pagination
-        totalRecords={roomAvailability.length}
+        totalRecords={roomAvailability?.length}
         recordsPerPage={recordsPerPage}
         onPageChange={handlePageChange}
       />

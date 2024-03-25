@@ -59,6 +59,62 @@ const Walkin = async (req, res) => {
   }
 };
 
+const getLoyaltyPoints = async (req, res) => {
+  const { trn } = req.body;
+  const query = `
+  SELECT LoyaltyPoints
+  FROM guest
+  where trn  = ${trn};
+  `;
+  try {
+    let pool = await sql.connect(config);
+    let LoyaltyPoints = await pool.request().query(query);
+
+    console.log(LoyaltyPoints);
+    return res.json(LoyaltyPoints);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
+const getHousekeepingNotifications = async (req, res) => {
+  const query = `
+    SELECT *
+    FROM HousekeepingNotifications;
+  `;
+  try {
+    let pool = await sql.connect(config);
+    let notifications = await pool.request().query(query);
+
+    res.json(notifications.recordset);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
+const updateNotificationStatus = async (req, res) => {
+  const { notificationID, status } = req.body;
+  const query = `
+    UPDATE HousekeepingNotifications
+    SET Status = '${status}'
+    WHERE NotificationID = '${notificationID}';
+  `;
+  console.log(notificationID, status);
+  try {
+    let pool = await sql.connect(config);
+    let result = await pool.request().query(query);
+
+    res.json({ message: "Status updated successfully", result });
+  } catch (error) {
+    console.error("Error updating notification status:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while updating notification status" });
+  }
+};
+
+module.exports = { updateNotificationStatus };
+
 const Login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -86,6 +142,13 @@ const Login = async (req, res) => {
     SET LoginAttempts = LoginAttempts + 1
     WHERE Email = '${email}';
   `;
+
+  const adminData = `
+
+  select * from Users where Email = '${email}';
+  `;
+
+  const houskeeper = `select * from Users where Email = '${email}'`;
 
   try {
     let pool = await sql.connect(config);
@@ -126,20 +189,31 @@ const Login = async (req, res) => {
 
     // Log successful login attempt
     await pool.request().query(`
-      INSERT INTO USERS (Email, Password)                
-      VALUES ('${email}', 'Login Success');
+      INSERT INTO USERS (Email, Password,Role)                
+      VALUES ('${email}', 'Login Success','admin');
     `);
 
     if (UpdateUserdata.recordset[0]?.Role === "guest") {
-      sendCode(email); // Function to use nodemailer
+      // Function to use nodemailer
       console.log("Guest logged in!");
-      return res.json(UpdateUserdata);
+      const userdata = await pool.request().query(query1);
+      console.log(userdata);
+      sendCode(email);
+      return res.json(userdata);
     }
 
     if (UpdateUserdata.recordset[0]?.Role === "admin") {
-      console.log("Admin logged in!");
       sendCode(email); // Function to use nodemailer
-      return res.json(UpdateUserdata);
+      const userdata = await pool.request().query(adminData);
+      console.log("Admin logged in!");
+      return res.json(userdata);
+    }
+
+    if (UpdateUserdata.recordset[0]?.Role === "housekeeper") {
+      sendCode(email); // Function to use nodemailer
+      const userdata = await pool.request().query(houskeeper);
+      console.log("HouseKeeper logged in!");
+      return res.json(userdata);
     }
   } catch (error) {
     console.error("Error:", error);
@@ -153,4 +227,7 @@ module.exports = {
   EmployeeSup,
   ReservationDetails,
   Login,
+  getLoyaltyPoints,
+  getHousekeepingNotifications,
+  updateNotificationStatus,
 };

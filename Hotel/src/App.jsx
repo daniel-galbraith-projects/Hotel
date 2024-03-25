@@ -12,6 +12,7 @@ import Room_INFO from "./pages/roomdetails";
 import NotFound from "./component/notFound";
 import GuestForm from "./pages/profile";
 import Employee from "./pages/private/employee";
+import Housekeeper from "./pages/private/houskeeper";
 import SignupForm from "./pages/signup";
 import {
   ProtectedRoutes,
@@ -48,17 +49,19 @@ function App() {
             <Route path="*" element={<NotFound />} />
             <Route path="/ft" element={<Two_Step_AUthentication />} />
             <Route element={<ProtectedRoutes />}>
-              <Route path="/home" element={<Home />} />
-              <Route path="/guest" element={<GuestForm />} />
-              <Route path="/rooms" element={<Rooms />} />
-              <Route path="/reservation" element={<Reservation />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/guest" element={<GuestForm />} />
+            <Route path="/rooms" element={<Rooms />} />
+            <Route path="/reservation" element={<Reservation />} />
 
-              <Route path="/roomdetails" element={<Room_INFO />} />
+            <Route path="/roomdetails" element={<Room_INFO />} />
             </Route>
-            {/* <Route element={<EmployeeProtectedRoutes />}> */}
-              <Route path="/employee" element={<Employee />} />
-            {/* </Route> */}
+            <Route element={<EmployeeProtectedRoutes />}>
+            <Route path="/employee" element={<Employee />} />
+            <Route path="/housekeeper" element={<Housekeeper />} />
+            </Route>
             <Route path="/bill" element={<Bill />} />
+
           </Routes>
         </BrowserRouter>
       </Context.Provider>

@@ -9,6 +9,8 @@ function ProtectedRoutes() {
   const { Userdata, isValidToken, setIsValidToken } = useContext(Context);
 
   const navigate = useNavigate();
+  console.log(isValidToken);
+  console.log(Userdata.Role);
 
   if (Userdata?.Role === "guest") {
     return isValidToken === true ? (
@@ -28,7 +30,7 @@ function EmployeeProtectedRoutes() {
   const { Userdata, isValidToken, setIsValidToken } = useContext(Context);
 
   const navigate = useNavigate();
-  if (Userdata?.Role === "admin") {
+  if (Userdata?.Role === "admin" || "housekeeper") {
     return isValidToken === true ? (
       <Outlet />
     ) : (

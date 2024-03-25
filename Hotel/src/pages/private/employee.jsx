@@ -25,8 +25,12 @@ import OnlineGuest from "../../component/Employee/onlineguest";
 //Logout
 import Logout from "../../component/logout";
 
+import getdata from "../../api/fetchdata";
+import Pagination from "../../component/Pagination";
+import axios from "axios";
+
 function Employee(params) {
-  const [activeSection, setActiveSection] = useState(null);
+  const [activeSection, setActiveSection] = useState("Dashboard");
 
   const handleSectionClick = (section) => {
     setActiveSection(section);
@@ -47,6 +51,7 @@ function Employee(params) {
       <div className="employeeBody">
         <div className="navbar-employee">
           <div className="navbar-wrappper">
+            {/* Dashboard Section */}
             <div
               className={`section ${
                 activeSection === "Dashboard" ? "active" : ""
@@ -58,6 +63,8 @@ function Employee(params) {
                 <span>Dashboard</span>
               </div>
             </div>
+
+            {/* Employee Section */}
             <div
               className={`section ${
                 activeSection === "Employee" ? "active" : ""
@@ -69,6 +76,8 @@ function Employee(params) {
                 <span>Employee</span>
               </div>
             </div>
+
+            {/* Task Section */}
             <div
               className={`section ${activeSection === "Task" ? "active" : ""}`}
               onClick={() => handleSectionClick("Task")}
@@ -78,6 +87,8 @@ function Employee(params) {
                 <span>Task</span>
               </div>
             </div>
+
+            {/* Projects Section */}
             <div
               className={`section ${
                 activeSection === "Projects" ? "active" : ""
@@ -89,6 +100,8 @@ function Employee(params) {
                 <span>Projects</span>
               </div>
             </div>
+
+            {/* Setting Section */}
             <div
               className={`section ${
                 activeSection === "Setting" ? "active" : ""
@@ -100,20 +113,41 @@ function Employee(params) {
                 <span>Setting</span>
               </div>
             </div>
+
+            {/* Logout Section */}
             <div
               className={`section ${
-                activeSection === "Dashboard" ? "active" : ""
+                activeSection === "Logout" ? "active" : ""
               }`}
-              onClick={() => handleSectionClick("Dashboard")}
+              onClick={() => handleSectionClick("Logout")}
             >
               <div className="item">
                 <img src={logoutImage} alt="" />
-                <Logout />
+                <span>Logout</span>
               </div>
             </div>
           </div>
         </div>
 
+        {/* Conditional rendering based on activeSection */}
+        <main className="container-employee">
+          <div className="employee-wrapper">
+            {/* Render corresponding components based on activeSection */}
+            {activeSection === "Dashboard" && <DashboardComponent />}
+            {activeSection === "Employee" && <EmployeeComponent />}
+            {activeSection === "Task" && <TaskComponent />}
+            {activeSection === "Projects" && <ProjectsComponent />}
+            {activeSection === "Setting" && <SettingComponent />}
+            {activeSection === "Logout" && <Logout />}
+          </div>
+        </main>
+      </div>
+    </>
+  );
+
+  function DashboardComponent() {
+    return (
+      <>
         <main className="container-employee">
           <div className="employee-wrapper">
             <h3 className="overview">Overview</h3>
@@ -146,9 +180,158 @@ function Employee(params) {
             <OnlineGuest onlineGuest_data={onlineGuest_data} />
           </div>
         </main>
+      </>
+    );
+  }
+
+  function TaskComponent() {
+    const [reservations, setReservations] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [recordsPerPage] = useState(10); // Number of records per page
+    const [currentReservations, setCurrentReservations] = useState([]);
+
+    useEffect(() => {
+      setCurrentReservations(reservations);
+    }, [reservations]);
+
+    const handlePageChange = (pageNumber) => {
+      setCurrentPage(pageNumber);
+    };
+
+    const handleSearchChange = (event) => {
+      setSearchTerm(event.target.value);
+      setCurrentPage(1);
+    };
+
+    const handleDateTimeChange = (index, fieldName, value) => {
+      setCurrentReservations((prevState) => {
+        const updatedReservations = [...prevState];
+        updatedReservations[index][fieldName] = value;
+        return updatedReservations;
+      });
+    };
+
+    const formatDateTimeForSQL = (dateTime) => {
+      const date = new Date(dateTime);
+      return date.toISOString().slice(0, 19).replace("T", " ");
+    };
+
+    const startSearch = async () => {
+      try {
+        const response = await axios.put(
+          "http://localhost:5000/SearchReservationByResCode",
+          { res_code: searchTerm }
+        );
+        setCurrentReservations([response.data.recordset[0]]);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    const handlePost = async (index) => {
+      const { Res_code, Check_in, Check_out } = currentReservations[index];
+      try {
+        if (Check_in && Check_out) {
+          await updateReservation(Res_code, Check_in, Check_out);
+        } else if (Check_in) {
+          await updateReservation(Res_code, Check_in, null);
+        } else if (Check_out) {
+          await updateReservation(Res_code, null, Check_out);
+        }
+        console.log("Update successful");
+      } catch (error) {
+        console.error("Error updating reservation:", error);
+      }
+    };
+
+    const updateReservation = async (res_code, check_in, check_out) => {
+      try {
+        const response = await axios.put(
+          "http://localhost:5000/UpdateReservation",
+          {
+            res_code,
+            check_in: check_in ? formatDateTimeForSQL(check_in) : null,
+            check_out: check_out ? formatDateTimeForSQL(check_out) : null,
+          }
+        );
+        console.log("Update successful:", response.data);
+      } catch (error) {
+        throw new Error("Error updating reservation:", error);
+      }
+    };
+
+    return (
+      <div className="reservation-table-container">
+        <h3>Reservation</h3>
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+          <button onClick={startSearch}>Search</button>
+        </div>
+        <table className="reservation-table">
+          <thead>
+            <tr>
+              <th>Res_code</th>
+              <th>Status_</th>
+              <th>P_Guest</th>
+              <th>S_Guest</th>
+              <th>Room_ID</th>
+              <th>INVOICE</th>
+              <th>Check in</th>
+              <th>Check out</th>
+              <th>Update</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentReservations.map((reservation, index) => (
+              <tr key={index}>
+                <td>{reservation.Res_code}</td>
+                <td>{reservation.Status_}</td>
+                <td>{reservation.P_Guest}</td>
+                <td>{reservation.S_Guest}</td>
+                <td>{reservation.Room_ID}</td>
+                <td>{reservation.INVOICE_NUMBER}</td>
+                <td>
+                  {reservation.Check_in ? (
+                    reservation.Check_in
+                  ) : (
+                    <input
+                      type="datetime-local"
+                      onChange={(e) =>
+                        handleDateTimeChange(index, "Check_in", e.target.value)
+                      }
+                    />
+                  )}
+                </td>
+                <td>
+                  {reservation.Check_out ? (
+                    reservation.Check_out
+                  ) : (
+                    <input
+                      type="datetime-local"
+                      value={reservation.Check_out || ""}
+                      onChange={(e) =>
+                        handleDateTimeChange(index, "Check_out", e.target.value)
+                      }
+                    />
+                  )}
+                </td>
+                <td>
+                  <button onClick={() => handlePost(index)}>Post</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {/* Pagination component */}
       </div>
-    </>
-  );
+    );
+  }
 }
 
 export default Employee;

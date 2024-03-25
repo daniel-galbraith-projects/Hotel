@@ -11,6 +11,7 @@ const Login = () => {
   const [error, setError] = useState(false);
   const { Userdata, setUserdata } = useContext(Context);
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -31,10 +32,14 @@ const Login = () => {
         if (response?.data?.recordset[0]?.Role === "guest") {
           return navigate("/ft");
         }
+
+        if (response?.data?.recordset[0]?.Role === "housekeeper") {
+          return navigate("/ft");
+        }
       }
     } catch (error) {
       console.log(error?.response?.data?.message);
-      setError(error.response.data.message);
+      setError(error?.response?.data?.message);
     }
   };
 

@@ -13,11 +13,11 @@ const OnlineGuest = ({ onlineGuest_data }) => {
           </tr>
         </thead>
         <tbody>
-          {onlineGuest_data.map((reservation, index) => (
+          {onlineGuest_data?.map((reservation, index) => (
             <tr key={index}>
-              <td>{reservation.Res_code}</td>
-              <td>{reservation.P_Guest}</td>
-              <td>{reservation.SERVICE_ID}</td>
+              <td>{reservation?.Res_code}</td>
+              <td>{reservation?.P_Guest}</td>
+              <td>{reservation?.SERVICE_ID}</td>
             </tr>
           ))}
         </tbody>

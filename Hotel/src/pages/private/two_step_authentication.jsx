@@ -6,7 +6,8 @@ import { Context } from "../../App";
 import { Link, useNavigate } from "react-router-dom";
 
 const Two_Step_Authentication = () => {
-  const { Userdata, isValidToken, setIsValidToken } = useContext(Context);
+  const { Userdata, setUserdata, isValidToken, setIsValidToken } =
+    useContext(Context);
   const navigate = useNavigate();
   const form = useForm();
   const { register, handleSubmit, formState } = form;
@@ -18,17 +19,34 @@ const Two_Step_Authentication = () => {
         email: Userdata?.Email, // Use Userdata's email
         token: data?.token,
       });
-
+      console.log(response.status);
       if (response.status === 200) {
         setIsValidToken(true);
-        if (Userdata?.Role == "admin") {
+        console.log(isValidToken);
+        console.log(Userdata);
+        if (Userdata?.Role === "admin") {
           navigate("/employee");
+        } else if (Userdata?.Role === "housekeeper") {
+          navigate("/housekeeper");
         } else {
           navigate("/home");
         }
       }
     } catch (error) {
       setIsValidToken(false); // Set state to false if token is invalid
+      console.log("Error:", error);
+    }
+  };
+
+  const resendToken = async () => {
+    try {
+      // Send request to server to resend token
+      const response = await axios.post("http://localhost:5000/resendtoken", {
+        email: Userdata?.Email, // Use Userdata's email
+      });
+      console.log(response.data); // Log response from the server
+      // You can provide feedback to the user that the token has been resent
+    } catch (error) {
       console.error("Error:", error);
     }
   };
@@ -62,6 +80,9 @@ const Two_Step_Authentication = () => {
             <p className="errorMessage">Invalid Token</p>
           )}
           <button type="submit">Verify</button>
+          <button type="button" onClick={resendToken}>
+            Resend token
+          </button>
         </form>
       </div>
     </>

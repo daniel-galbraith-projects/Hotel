@@ -59,11 +59,17 @@ const CreateReservation = async (req, res) => {
     @SERVICE_ID = ${service_id};
     `;
 
+  const get_lastRescode_AS_INVOICENUMBER = `SELECT MAX(Res_code) AS InvoiceNumber FROM Reservation;`;
+
   try {
     let pool = await sql.connect(config);
     let CreateReservation = await pool.request().query(query);
+    let InvoiceNumber = await pool
+      .request()
+      .query(get_lastRescode_AS_INVOICENUMBER);
 
-    res.json(CreateReservation);
+    console.log(InvoiceNumber);
+    res.json(InvoiceNumber);
     console.log("completed");
   } catch (error) {
     res.json(error.originalError?.info.message);
@@ -100,7 +106,6 @@ const Updateguest = async (req, res) => {
 const SearchReservationByResCode = async (req, res) => {
   const { res_code } = req.body;
 
-  console.log(trn, fname, lname);
   const query = ` SearchReservationByResCode @ResCode = "${res_code}"`;
 
   try {
@@ -114,19 +119,59 @@ const SearchReservationByResCode = async (req, res) => {
   }
 };
 
-const Bill = async (req, res) => {
-  const { ITEM_COST, Final_Cost, check_in } = req.body;
+const UpdateCheck_IN_OUT = async (req, res) => {
+  const { res_code, check_in, check_out } = req.body;
+  console.log(res_code, check_in, check_out);
 
-  console.log(ITEM_COST, Final_Cost, check_in);
+  // Check if check_in or check_out is not null or undefined, if so, include it in the update query
+  let updateFields = "";
+  if (check_in != null && check_in !== undefined) {
+    updateFields += `Check_in = '${check_in}'`;
+  }
+  if (check_out != null && check_out !== undefined) {
+    if (updateFields.length > 0) updateFields += ", ";
+    updateFields += `Check_out = '${check_out}'`;
+  }
 
   const query = `
-    INSERT INTO BILL (Final_Cost, ITEM_COST, check_in)
-    VALUES ('${Final_Cost}', '${ITEM_COST}', '${check_in}');
+    UPDATE Reservation
+    SET ${updateFields}
+    WHERE Res_code = '${res_code}';
   `;
 
   try {
     let pool = await sql.connect(config);
+    let SearchReservationByResCode = await pool.request().query(query);
+
+    res.json(SearchReservationByResCode);
+    console.log("completed");
+  } catch (error) {
+    res.json(error.originalError?.info.message);
+    console.log(error);
+  }
+};
+
+const Bill = async (req, res) => {
+  const { INVOICE_NUMBER, ITEM_COST, Final_Cost, check_in } = req.body;
+
+  console.log(ITEM_COST, Final_Cost, check_in);
+
+  const query = `
+    INSERT INTO BILL (INVOICE_NUMBER,Final_Cost, ITEM_COST, check_in)
+    VALUES ('${INVOICE_NUMBER}','${Final_Cost}', '${ITEM_COST}', '${check_in}');
+  `;
+
+  const insertBillInvoiceNumber = `
+  UPDATE Reservation
+  SET INVOICE_NUMBER = ${INVOICE_NUMBER} 
+  WHERE Res_code = ${INVOICE_NUMBER};  `;
+
+  try {
+    let pool = await sql.connect(config);
     let bill = await pool.request().query(query);
+    let updateInvoiceNumber = await pool
+      .request()
+      .query(insertBillInvoiceNumber);
 
     res.json(bill);
     console.log("Bill");
@@ -162,6 +207,24 @@ const AdditionalServices = async (req, res) => {
   }
 };
 
+const Billstatus = async (req, res) => {
+  const { status, res_code } = req.body;
+
+  const Billstatus = `
+  UPDATE Reservation
+  SET Status_ = ${status} 
+  WHERE Res_code = ${res_code};  `;
+  try {
+    let pool = await sql.connect(config);
+    let Room = await pool.request().query(Billstatus);
+
+    res.json(Room);
+    console.log("completed");
+  } catch (error) {
+    res.json(error.originalError?.info.message);
+  }
+};
+
 module.exports = {
   SearchReservationByResCode,
   Addguest,
@@ -170,4 +233,6 @@ module.exports = {
   AllRoom,
   AdditionalServices,
   Bill,
+  Billstatus,
+  UpdateCheck_IN_OUT,
 };

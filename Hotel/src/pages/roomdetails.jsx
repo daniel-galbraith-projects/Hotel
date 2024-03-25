@@ -22,12 +22,14 @@ import getdata from "../api/fetchdata";
 
 function Room_INFO() {
   const { data } = getdata("additionalservices");
-  const { RoomInfo, setserviceID, serviceID } = useContext(Context);
+  const { RoomInfo, setserviceID, serviceID, setUserdata, Userdata } =
+    useContext(Context);
   const [clickedServices, setClickedServices] = useState([]);
 
+  console.log(serviceID);
   const serviceButton = (serviceId) => {
     setserviceID(serviceId);
-    console.log(serviceId);
+    setUserdata({ ...Userdata, additional_Services: { ...serviceId } });
 
     if (clickedServices.includes(serviceId)) {
       // If service is already clicked, remove it from clicked services

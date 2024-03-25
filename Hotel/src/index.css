@@ -470,14 +470,15 @@ p {
 .guestprofile-wrapper {
   width: 650px;
   padding: 10px;
-
+  background-color: white;
   height: fit-content;
-  border: solid 1px;
+  min-height: 50vh;
+  /* border: solid 1px; */
   border-radius: 10px;
-  display: flex;
+  /* display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: column; */
   box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.1);
 }
 .guestprofile-container {
@@ -485,6 +486,7 @@ p {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  gap: 30px;
 }
 .guestprofile-container input {
   width: 100%;
@@ -495,6 +497,7 @@ p {
   justify-content: center;
   gap: 16px;
   width: 90%;
+  margin: auto;
 }
 .fisrtandlastname {
   display: flex;
@@ -504,6 +507,7 @@ p {
 /* -----------------EMPlOYEE NAVBAR-------------------- */
 .employeeBody {
   display: flex;
+  min-height: 100vh;
 }
 
 .navbar-employee {
@@ -678,4 +682,171 @@ p {
 }
 .FactorauthenTication input {
   height: 40px;
+}
+
+/* Bill table */
+.receipt-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  text-align: center;
+  /* border-radius: 100px; */
+
+  background-color: white;
+}
+
+.receipt-table th,
+.receipt-table td {
+  padding: 8px; /* Add padding for better spacing */
+}
+
+.receipt-table hr {
+  margin-left: 0;
+  height: 1px;
+}
+
+/* loyalty_point */
+
+.welcome {
+  margin: 0px;
+  text-align: center;
+  padding: 10px;
+  font-size: xx-large;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 3000;
+}
+
+.welcomename {
+  color: darkcyan;
+  letter-spacing: 0.2ch;
+}
+
+.right-container {
+  width: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.loyalty_points {
+  border: solid 1px black;
+  text-align: center;
+  width: 60%;
+  background-color: slategray;
+  color: white;
+  box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+.rewards_list {
+  min-width: 100px;
+  max-width: 250px;
+  text-align: center;
+  width: 50%;
+  box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+
+  color: black;
+  border: 1px solid;
+  border-radius: 10px;
+  background-color: slategrey;
+}
+
+.rewards {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  padding: 5px;
+}
+
+.loyalty_points h4,
+.rewards_list h4 {
+  color: black;
+  font-size: x-large;
+  font-weight: 1000;
+  margin: 2px;
+  padding: 2px;
+  background-color: white;
+}
+
+.rewards .reward-wrapper {
+  padding: 10px;
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid;
+  border-radius: 10px;
+  background-color: #ccc;
+}
+.reward-wrapper p {
+  margin: 0px;
+  padding: 0px;
+}
+
+.rewards img {
+  width: 50px;
+}
+
+.reservation_list {
+  width: 300px;
+  height: 150px;
+  border: 1px solid;
+}
+
+.bill {
+  width: 300px;
+  height: 150px;
+  border: 1px solid;
+}
+
+.bill_container {
+  width: 500px;
+  border: 1px solid;
+}
+
+.profile-navbar {
+  width: 100%;
+  height: max-content;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 30px;
+  background-color: #343a40;
+  color: white;
+  padding: 10px 0px;
+  text-indent: 20px;
+}
+
+/* ---------HouseKeeper-------- */
+
+.notificationNew {
+  width: 90%;
+  border-radius: 50px;
+  background-color: greenyellow;
+  text-transform: uppercase;
+  color: black;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.housekeeperContainer {
+  width: 80%;
+  margin: auto;
+}
+
+.housekeeperContainer h1 {
+  text-align: center;
+}
+
+.reservation-table tbody tr:nth-child(even) {
+  background-color: lavender;
+}
+
+.reservation-table tbody tr:nth-child(odd) {
+  background-color: lightblue;
 }

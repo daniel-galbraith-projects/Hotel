@@ -14,7 +14,7 @@ function ReservationTable(prop) {
     indexOfFirstRecord,
     indexOfLastRecord
   );
-
+  console.log(reservations);
   // Function to handle page change
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -23,6 +23,7 @@ function ReservationTable(prop) {
   return (
     <div className="reservation-table-container">
       <h3>Reservation</h3>
+      <span>Reload</span>
       <table className="reservation-table">
         <thead>
           <tr>
@@ -30,6 +31,8 @@ function ReservationTable(prop) {
             <th>Status_</th>
             <th>P_Guest</th>
             <th>S_Guest</th>
+            <th>Check IN</th>
+            <th>Check OUT</th>
             <th>Room_ID</th>
             <th>INVOICE</th>
           </tr>
@@ -37,12 +40,14 @@ function ReservationTable(prop) {
         <tbody>
           {currentReservations?.map((reservation, index) => (
             <tr key={index}>
-              <td>{reservation.Res_code}</td>
-              <td>{reservation.Status_}</td>
-              <td>{reservation.P_Guest}</td>
-              <td>{reservation.S_Guest}</td>
-              <td>{reservation.Room_ID}</td>
-              <td>{reservation.INVOICE_NUMBER}</td>
+              <td>{reservation?.Res_code}</td>
+              <td>{reservation?.Status_}</td>
+              <td>{reservation?.P_Guest}</td>
+              <td>{reservation?.S_Guest}</td>
+              <td>{reservation?.check_in}</td>
+              <td>{reservation?.check_out}</td>
+              <td>{reservation?.Room_ID}</td>
+              <td>{reservation?.INVOICE_NUMBER}</td>
             </tr>
           ))}
         </tbody>
