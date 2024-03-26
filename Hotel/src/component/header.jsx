@@ -10,7 +10,7 @@ function Header() {
     <header className="header-container">
       <div className="Logo"> Logo </div>
       <div className="navbar">
-        <NavLink to="/home">Home</NavLink>
+        <NavLink to="/">Home</NavLink>
         <NavLink to="/rooms">Rooms</NavLink>
         {/* <NavLink to="/reservation">Reservation</NavLink> */}
       </div>

@@ -95,7 +95,7 @@ function Bill(params) {
                 </tr>
                 <tr>
                   <th>Final Cost:</th>
-                  <td>{Userdata?.RoomCost}</td>
+                  <td>{Userdata?.Final_Cost}</td>
                 </tr>
                 <tr>
                   <th>Total Cost:</th>

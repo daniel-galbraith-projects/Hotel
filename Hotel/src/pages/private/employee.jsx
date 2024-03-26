@@ -165,10 +165,6 @@ function Employee(params) {
       setCurrentReservations(reservations);
     }, [reservations]);
 
-    const handlePageChange = (pageNumber) => {
-      setCurrentPage(pageNumber);
-    };
-
     const handleSearchChange = (event) => {
       setSearchTerm(event.target.value);
       setCurrentPage(1);
@@ -193,6 +189,7 @@ function Employee(params) {
           "https://server-hotel-s147.onrender.com/SearchReservationByResCode",
           { res_code: searchTerm }
         );
+        console.log(response, "haha");
         setCurrentReservations([response.data.recordset[0]]);
       } catch (error) {
         console.error("Error:", error);
@@ -260,15 +257,15 @@ function Employee(params) {
           <tbody>
             {currentReservations.map((reservation, index) => (
               <tr key={index}>
-                <td>{reservation.Res_code}</td>
-                <td>{reservation.Status_}</td>
-                <td>{reservation.P_Guest}</td>
-                <td>{reservation.S_Guest}</td>
-                <td>{reservation.Room_ID}</td>
-                <td>{reservation.INVOICE_NUMBER}</td>
+                <td>{reservation?.Res_code}</td>
+                <td>{reservation?.Status_}</td>
+                <td>{reservation?.P_Guest}</td>
+                <td>{reservation?.S_Guest}</td>
+                <td>{reservation?.Room_ID}</td>
+                <td>{reservation?.INVOICE_NUMBER}</td>
                 <td>
-                  {reservation.Check_in ? (
-                    reservation.Check_in
+                  {reservation?.Check_in ? (
+                    reservation?.Check_in
                   ) : (
                     <input
                       type="datetime-local"
@@ -279,12 +276,12 @@ function Employee(params) {
                   )}
                 </td>
                 <td>
-                  {reservation.Check_out ? (
-                    reservation.Check_out
+                  {reservation?.Check_out ? (
+                    reservation?.Check_out
                   ) : (
                     <input
                       type="datetime-local"
-                      value={reservation.Check_out || ""}
+                      value={reservation?.Check_out || ""}
                       onChange={(e) =>
                         handleDateTimeChange(index, "Check_out", e.target.value)
                       }

@@ -15,9 +15,13 @@ function Housekeeper() {
         "https://server-hotel-s147.onrender.com/getHousekeepingNotifications"
       );
       setNotifications(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error("Error fetching notifications:", error);
     }
+  };
+  const handleRefresh = () => {
+    fetchNotifications();
   };
 
   const handleStatusUpdate = async (notificationID) => {
@@ -48,6 +52,7 @@ function Housekeeper() {
       </div>
 
       <h1>Housekeeping Tasks - Pending Rooms</h1>
+      <button onClick={handleRefresh}>Refresh</button>
 
       <table className="reservation-table">
         <thead>

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+import { Circles } from "react-loader-spinner";
 ///Tower A Images
 import DeluxeA from "../assets/DeluxeA.jpg";
 import suiteA from "../assets/suiteA.jpg";
@@ -170,7 +171,19 @@ function Rooms() {
           })}
         </div>
       ) : (
-        <div className="loading">Loading...</div>
+        <div className="loading">
+          {" "}
+          <Circles
+            ariaLabel="circles-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+            // Choose the type of loader animation
+            color="#007bff" // Set the color of the loader
+            height={100} // Set the height of the loader
+            width={100} // Set the width of the loader
+          />
+        </div>
       )}
 
       <Footer />
