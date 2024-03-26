@@ -11,7 +11,9 @@ function getdata(url) {
     const fetchData = async () => {
       setloading(true);
       try {
-        const response = await axios.get(`http://localhost:5000/${url}`);
+        const response = await axios.get(
+          `https://server-hotel-s147.onrender.com/${url}`
+        );
 
         setdata(response?.data?.recordset);
 

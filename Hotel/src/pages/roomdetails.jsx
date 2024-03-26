@@ -21,7 +21,26 @@ import axios from "axios";
 import getdata from "../api/fetchdata";
 
 function Room_INFO() {
-  const { data } = getdata("additionalservices");
+  // const { data } = getdata("additionalservices");
+  const data = [];
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+
+  // Other code remains the same
+
+  const handleBookClick = () => {
+    if (
+      Userdata == null ||
+      Userdata === undefined ||
+      Object.keys(Userdata).length === 0
+    ) {
+      // If Userdata is null or undefined, show the login pop-up
+      setShowLoginPopup(true);
+    } else {
+      console.log("Booking logic here...");
+      // If Userdata exists, proceed with booking
+      // You may want to navigate the user to the booking page here
+    }
+  };
   const { RoomInfo, setserviceID, serviceID, setUserdata, Userdata } =
     useContext(Context);
   const [clickedServices, setClickedServices] = useState([]);
@@ -122,9 +141,25 @@ function Room_INFO() {
               );
             })}
           </div>
-
-          <Link to="/reservation">
-            <button onClick={() => {}} className="Room-info-button">
+          {showLoginPopup && (
+            <div className="login-popup">
+              <div className="login-popup-content">
+                <h2>Please log in to book</h2>
+                <p>You need to log in before booking a room.</p>
+                <button onClick={() => setShowLoginPopup(false)}>Close</button>
+              </div>
+            </div>
+          )}
+          <Link
+            to={
+              Userdata == null ||
+              undefined ||
+              Object.keys(Userdata).length === 0
+                ? "/roomdetails"
+                : "/reservation"
+            }
+          >
+            <button onClick={handleBookClick} className="Room-info-button">
               BOOk NOW
             </button>
           </Link>

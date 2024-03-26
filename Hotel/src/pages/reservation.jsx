@@ -20,7 +20,7 @@ const Reservation = () => {
   const Submit = async (data) => {
     try {
       const Reversation_response_InvoiceNmuber = await axios.post(
-        "http://localhost:5000/CreateReservation",
+        "https://server-hotel-s147.onrender.com/CreateReservation",
         {
           ...data,
           room_id: RoomInfo?.Room_ID,
@@ -30,7 +30,7 @@ const Reservation = () => {
         }
       );
 
-      axios.post("http://localhost:5000/bill", {
+      axios.post("https://server-hotel-s147.onrender.com/bill", {
         INVOICE_NUMBER:
           Reversation_response_InvoiceNmuber.data?.recordset[0].InvoiceNumber,
         ITEM_COST: RoomInfo.roomcost,

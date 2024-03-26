@@ -12,8 +12,11 @@ const SignupForm = () => {
   const Submit = (data) => {
     console.log(data);
     try {
-      axios.post("http://localhost:5000/addguest", { ...data, role: "guest" });
-      navigate("/");
+      axios.post("https://server-hotel-s147.onrender.com/addguest", {
+        ...data,
+        role: "guest",
+      });
+      navigate("/login");
     } catch (error) {
       console.error("Error:", error);
     }

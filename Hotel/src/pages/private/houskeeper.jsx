@@ -12,7 +12,7 @@ function Housekeeper() {
   const fetchNotifications = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/getHousekeepingNotifications"
+        "https://server-hotel-s147.onrender.com/getHousekeepingNotifications"
       );
       setNotifications(response.data);
     } catch (error) {
@@ -29,10 +29,13 @@ function Housekeeper() {
       );
       setNotifications(updatedNotifications);
 
-      await axios.put("http://localhost:5000/updateNotificationStatus", {
-        notificationID,
-        status: "Confirm",
-      });
+      await axios.put(
+        "https://server-hotel-s147.onrender.com/updateNotificationStatus",
+        {
+          notificationID,
+          status: "Confirm",
+        }
+      );
     } catch (error) {
       console.error("Error updating notification status:", error);
     }
@@ -40,7 +43,10 @@ function Housekeeper() {
 
   return (
     <div className="housekeeperContainer">
-      <Logout />
+      <div className="logout_housekeeping">
+        <Logout />
+      </div>
+
       <h1>Housekeeping Tasks - Pending Rooms</h1>
 
       <table className="reservation-table">

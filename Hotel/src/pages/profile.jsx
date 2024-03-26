@@ -6,6 +6,7 @@ import Header from "../component/header";
 import axios from "axios";
 import { Context } from "../App";
 import { useContext } from "react";
+import Logout from "../component/logout";
 
 // Images
 
@@ -25,7 +26,9 @@ const GuestForm = () => {
   const Submit = async (data) => {
     console.log(data);
     try {
-      axios.put("http://localhost:5000/Updateguest", { ...data });
+      axios.put("https://server-hotel-s147.onrender.com/Updateguest", {
+        ...data,
+      });
     } catch (error) {
       console.error("Error:", error);
     }
@@ -35,7 +38,7 @@ const GuestForm = () => {
     const fetchData = async () => {
       try {
         const response = await axios.put(
-          "http://localhost:5000/getLoyaltyPoints",
+          "https://server-hotel-s147.onrender.com/getLoyaltyPoints",
           {
             trn: Userdata?.TRN,
           }
@@ -277,8 +280,7 @@ const GuestForm = () => {
               onSubmit={handleSubmit(Submit)}
               noValidate
             >
-              {/* Form fields for setting */}
-              {/* You can put your form fields for setting here */}
+              <Logout />
             </form>
           )}
         </div>

@@ -16,7 +16,7 @@ function Bill(params) {
     const fetchData = async () => {
       try {
         const response = await axios.put(
-          "http://localhost:5000/CalculateCustomerBill",
+          "https://server-hotel-s147.onrender.com/CalculateCustomerBill",
           {
             res_code: Userdata.INVOICE_NUMBER,
           }
@@ -32,11 +32,11 @@ function Bill(params) {
   const handleConfirm = async () => {
     try {
       // Make a POST request to confirm the bill
-      await axios.put("http://localhost:5000/Billstatus", {
+      await axios.put("https://server-hotel-s147.onrender.com/Billstatus", {
         res_code: Userdata.INVOICE_NUMBER,
         status: "confirmed",
       });
-      navigate("/home");
+      navigate("/");
       // Handle success, e.g., show a success message or redirect
     } catch (error) {
       console.error("Error confirming bill:", error);
@@ -47,11 +47,11 @@ function Bill(params) {
   const handleNotConfirm = async () => {
     try {
       // Make a POST request to mark the bill as not confirmed
-      await axios.put("http://localhost:5000/Billstatus", {
+      await axios.put("https://server-hotel-s147.onrender.com/Billstatus", {
         res_code: Userdata.INVOICE_NUMBER,
         status: "Not Confirmed",
       });
-      navigate("/home");
+      navigate("/");
       // Handle success, e.g., show a success message or redirect
     } catch (error) {
       console.error("Error marking bill as not confirmed:", error);

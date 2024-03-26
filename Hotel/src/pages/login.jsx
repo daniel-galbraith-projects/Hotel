@@ -16,10 +16,13 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5000/login", {
-        password,
-        email,
-      });
+      const response = await axios.post(
+        "https://server-hotel-s147.onrender.com/login",
+        {
+          password,
+          email,
+        }
+      );
       console.log(response);
       if (response) {
         setUserdata({ ...response?.data?.recordset[0], authenticated: true });

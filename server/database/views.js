@@ -132,8 +132,8 @@ const Login = async (req, res) => {
 
   // Store User LOGIN ACTIVITY
   const query3 = `
-    INSERT INTO USERS (Email, Password)
-    VALUES ('${email}', 'Login Failed');
+    INSERT INTO USERS (Email, Password,Role)
+    VALUES ('${email}', 'Login Failed','guest');
   `;
 
   // Increment LoginAttempts

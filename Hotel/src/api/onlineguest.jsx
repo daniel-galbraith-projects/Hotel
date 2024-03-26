@@ -11,7 +11,9 @@ function getOnlineGuest(url) {
     const fetchData = async () => {
       setonlineGuest_loading(true);
       try {
-        const response = await axios.get(`http://localhost:5000/${url}`);
+        const response = await axios.get(
+          `https://server-hotel-s147.onrender.com/${url}`
+        );
 
         setonlineGuest_data(response?.data?.recordset);
       } catch (error) {
@@ -27,4 +29,4 @@ function getOnlineGuest(url) {
   return { onlineGuest_data, onlineGuest_loading, onlineGuest_error };
 }
 
-export default getOnlineGuest
+export default getOnlineGuest;

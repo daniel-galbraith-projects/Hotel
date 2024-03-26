@@ -10,7 +10,7 @@ function employeeAPI(url) {
     // Simulated data fetching from API
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/${url}`);
+        const response = await axios.get(`https://server-hotel-s147.onrender.com/${url}`);
 
         setReservations(response?.data?.recordset);
         setroom_loading(true);

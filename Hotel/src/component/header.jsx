@@ -13,13 +13,27 @@ function Header() {
         <NavLink to="/home">Home</NavLink>
         <NavLink to="/rooms">Rooms</NavLink>
         {/* <NavLink to="/reservation">Reservation</NavLink> */}
-        <NavLink to="*">About US</NavLink>
       </div>
       <div>
-        <NavLink to="/guest">
-          <img src={profile} alt="Profile"></img>{" "}
-          <span style={{ fontWeight: "900", fontSize: "large" }}>{Userdata.f_name} {Userdata.l_name}</span>
-        </NavLink>
+        {Object.keys(Userdata).length === 0 ? (
+          <>
+            {" "}
+            <NavLink to="/login">
+              {" "}
+              <span>Login</span>{" "}
+            </NavLink>
+            |<NavLink to="/signup">Sign up</NavLink>
+          </>
+        ) : (
+          <>
+            <NavLink to="/guest">
+              <img src={profile} alt="Profile"></img>
+              <span style={{ fontWeight: "900", fontSize: "large" }}>
+                {Userdata.f_name} {Userdata.l_name}
+              </span>
+            </NavLink>
+          </>
+        )}
       </div>
     </header>
   );

@@ -28,11 +28,21 @@ import Logout from "../../component/logout";
 import getdata from "../../api/fetchdata";
 import Pagination from "../../component/Pagination";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+import { Context } from "../../App";
+import { useContext } from "react";
 
 function Employee(params) {
+  const { Userdata, setUserdata } = useContext(Context);
   const [activeSection, setActiveSection] = useState("Dashboard");
+  const nav = useNavigate();
 
   const handleSectionClick = (section) => {
+    if (section == "Logout") {
+      setUserdata({});
+      nav("/");
+    }
     setActiveSection(section);
   };
 
@@ -64,19 +74,6 @@ function Employee(params) {
               </div>
             </div>
 
-            {/* Employee Section */}
-            <div
-              className={`section ${
-                activeSection === "Employee" ? "active" : ""
-              }`}
-              onClick={() => handleSectionClick("Employee")}
-            >
-              <div className="item">
-                <img src={employee} alt="" />
-                <span>Employee</span>
-              </div>
-            </div>
-
             {/* Task Section */}
             <div
               className={`section ${activeSection === "Task" ? "active" : ""}`}
@@ -85,32 +82,6 @@ function Employee(params) {
               <div className="item">
                 <img src={task} alt="" />
                 <span>Task</span>
-              </div>
-            </div>
-
-            {/* Projects Section */}
-            <div
-              className={`section ${
-                activeSection === "Projects" ? "active" : ""
-              }`}
-              onClick={() => handleSectionClick("Projects")}
-            >
-              <div className="item">
-                <img src={project} alt="" />
-                <span>Projects</span>
-              </div>
-            </div>
-
-            {/* Setting Section */}
-            <div
-              className={`section ${
-                activeSection === "Setting" ? "active" : ""
-              }`}
-              onClick={() => handleSectionClick("Setting")}
-            >
-              <div className="item">
-                <img src={setting} alt="" />
-                <span>Setting</span>
               </div>
             </div>
 
@@ -134,10 +105,9 @@ function Employee(params) {
           <div className="employee-wrapper">
             {/* Render corresponding components based on activeSection */}
             {activeSection === "Dashboard" && <DashboardComponent />}
-            {activeSection === "Employee" && <EmployeeComponent />}
+
             {activeSection === "Task" && <TaskComponent />}
-            {activeSection === "Projects" && <ProjectsComponent />}
-            {activeSection === "Setting" && <SettingComponent />}
+
             {activeSection === "Logout" && <Logout />}
           </div>
         </main>
@@ -220,7 +190,7 @@ function Employee(params) {
     const startSearch = async () => {
       try {
         const response = await axios.put(
-          "http://localhost:5000/SearchReservationByResCode",
+          "https://server-hotel-s147.onrender.com/SearchReservationByResCode",
           { res_code: searchTerm }
         );
         setCurrentReservations([response.data.recordset[0]]);
@@ -248,7 +218,7 @@ function Employee(params) {
     const updateReservation = async (res_code, check_in, check_out) => {
       try {
         const response = await axios.put(
-          "http://localhost:5000/UpdateReservation",
+          "https://server-hotel-s147.onrender.com/UpdateReservation",
           {
             res_code,
             check_in: check_in ? formatDateTimeForSQL(check_in) : null,

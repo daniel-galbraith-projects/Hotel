@@ -46,18 +46,16 @@ const Addguest = async (req, res) => {
 const CreateReservation = async (req, res) => {
   console.log(req.body);
   const { sdate, edate, pguest, sguest, room_id, service_id, trn } = req.body;
-
-  const query = ` EXEC CreateReservation 
-    
-    @Start_date = '${sdate}',
-    @End_date = '${edate}',
-    @Status = 'cofirmed',
-    @Primary_Guest = '${pguest}',
-    @Secondary_Guest = '${sguest}',
-    @TRN = ${trn},
-    @Room_ID = '${room_id}',
-    @SERVICE_ID = ${service_id};
-    `;
+  const service = parseInt(req.body.service_id); // Parse string to integer
+  const query = `EXEC CreateReservation 
+  @Start_date = '${sdate}',
+  @End_date = '${edate}',
+  @Status = 'confirmed',
+  @Primary_Guest = '${pguest}',
+  @Secondary_Guest = '${sguest}',
+  @TRN = ${trn},
+  @Room_ID = '${room_id}',
+  @SERVICE_ID = ${service || null};`;
 
   const get_lastRescode_AS_INVOICENUMBER = `SELECT MAX(Res_code) AS InvoiceNumber FROM Reservation;`;
 

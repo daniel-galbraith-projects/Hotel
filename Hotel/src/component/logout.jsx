@@ -11,9 +11,9 @@ const Logout = () => {
     setUserdata({});
     setIsValidToken(false);
     // Redirect to login page
-    nav("/");
+    nav("/login");
   };
-  return <div onClick={handleLogout}>Logout</div>;
+  return <div className="logout" onClick={handleLogout}>Logout</div>;
 };
 
 export default Logout;

@@ -15,10 +15,13 @@ const Two_Step_Authentication = () => {
 
   const Submit = async (data) => {
     try {
-      const response = await axios.post("http://localhost:5000/token", {
-        email: Userdata?.Email, // Use Userdata's email
-        token: data?.token,
-      });
+      const response = await axios.post(
+        "https://server-hotel-s147.onrender.com/token",
+        {
+          email: Userdata?.Email, // Use Userdata's email
+          token: data?.token,
+        }
+      );
       console.log(response.status);
       if (response.status === 200) {
         setIsValidToken(true);
@@ -29,7 +32,7 @@ const Two_Step_Authentication = () => {
         } else if (Userdata?.Role === "housekeeper") {
           navigate("/housekeeper");
         } else {
-          navigate("/home");
+          navigate("/");
         }
       }
     } catch (error) {
@@ -41,9 +44,12 @@ const Two_Step_Authentication = () => {
   const resendToken = async () => {
     try {
       // Send request to server to resend token
-      const response = await axios.post("http://localhost:5000/resendtoken", {
-        email: Userdata?.Email, // Use Userdata's email
-      });
+      const response = await axios.post(
+        "https://server-hotel-s147.onrender.com/resendtoken",
+        {
+          email: Userdata?.Email, // Use Userdata's email
+        }
+      );
       console.log(response.data); // Log response from the server
       // You can provide feedback to the user that the token has been resent
     } catch (error) {

@@ -220,6 +220,7 @@ footer img {
 .Room-info {
   width: 40%;
   text-align: start;
+  position: relative;
 }
 
 /* -----------Additional Services--------- */
@@ -849,4 +850,28 @@ p {
 
 .reservation-table tbody tr:nth-child(odd) {
   background-color: lightblue;
+}
+
+.logout_housekeeping {
+  display: flex;
+  justify-content: end;
+  font-size: xx-large;
+  margin-top: 2%;
+}
+
+.logout {
+  cursor: pointer;
+}
+
+
+.login-popup{
+  border: solid 1px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0px  0px 36px rgba(49, 49, 49, 0.15);
+  padding: 2rem;
+  border-radius: .75rem;
+  z-index: 100;
 }

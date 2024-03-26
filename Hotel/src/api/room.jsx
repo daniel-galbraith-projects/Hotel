@@ -11,7 +11,7 @@ function getroom(url) {
     const fetchData = async () => {
       setroom_loading(true);
       try {
-        const response = await axios.get(`http://localhost:5000/${url}`);
+        const response = await axios.get(`https://server-hotel-s147.onrender.com/${url}`);
 
         setroom_data(response?.data?.recordset);
       } catch (room_error) {

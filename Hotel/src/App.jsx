@@ -44,24 +44,22 @@ function App() {
       >
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignupForm />} />
             <Route path="*" element={<NotFound />} />
-            <Route path="/ft" element={<Two_Step_AUthentication />} />
-            <Route element={<ProtectedRoutes />}>
-            <Route path="/home" element={<Home />} />
-            <Route path="/guest" element={<GuestForm />} />
             <Route path="/rooms" element={<Rooms />} />
-            <Route path="/reservation" element={<Reservation />} />
-
+            <Route path="/" element={<Home />} />
+            <Route path="/ft" element={<Two_Step_AUthentication />} />
             <Route path="/roomdetails" element={<Room_INFO />} />
+            <Route element={<ProtectedRoutes />}>
+              <Route path="/guest" element={<GuestForm />} />
+              <Route path="/reservation" element={<Reservation />} />
             </Route>
-            <Route element={<EmployeeProtectedRoutes />}>
+            {/* <Route element={<EmployeeProtectedRoutes />}> */}
             <Route path="/employee" element={<Employee />} />
             <Route path="/housekeeper" element={<Housekeeper />} />
-            </Route>
+            {/* </Route> */}
             <Route path="/bill" element={<Bill />} />
-
           </Routes>
         </BrowserRouter>
       </Context.Provider>

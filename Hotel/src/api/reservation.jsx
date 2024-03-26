@@ -11,7 +11,7 @@ function getreservation(url) {
     const fetchData = async () => {
       setres_loading(true);
       try {
-        const response = await axios.get(`http://localhost:5000/${url}`);
+        const response = await axios.get(`https://server-hotel-s147.onrender.com/${url}`);
 
         setres_data(response?.data?.recordset);
       } catch (error) {
