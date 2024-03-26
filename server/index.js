@@ -7,7 +7,7 @@ const sql = require("mssql");
 require("dotenv").config();
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT;
 
 // Middleware
 app.use(bodyParser.json());
